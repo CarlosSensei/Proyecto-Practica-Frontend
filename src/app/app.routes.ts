@@ -18,5 +18,6 @@ export const routes: Routes = [
         import('./author/author-list/author-list.page')
         .then(m => m.AuthorListPage)
     },
-    { path: 'games', loadComponent: () => import('./game/game-list/game-list.page').then(m => m.GameListPage)}
+    { path: 'games', loadComponent: () => import('./game/game-list/game-list.page').then(m => m.GameListPage)},
+    { path: 'clients', loadComponent: () => import('./client/client-list/client-list.page').then(m => m.ClientListPage)}
 ];
