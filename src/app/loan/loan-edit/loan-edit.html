@@ -1,0 +1,74 @@
+<div class="container">
+    @if (id()) {
+        <h1>Modificar préstamo</h1>
+    } @else {
+        <h1>Crear préstamo</h1>
+    }
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [(ngModel)]="id" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Selecciona cliente</mat-label>
+            <mat-select [ngModel]="selectedClientId()"(ngModelChange)="selectedClientId.set($event)" name="client">
+
+                @for (client of clients; track client.id) {
+                    <mat-option [value]="client.id">
+                        {{ client.name }}
+                    </mat-option>
+                }
+
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Selecciona juego</mat-label>
+            <mat-select [ngModel]="selectedGameId()"(ngModelChange)="selectedGameId.set($event)" name="game">
+
+                @for (game of games; track game.id) {
+                    <mat-option [value]="game.id">
+                        {{ game.title }}
+                    </mat-option>
+                }
+
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de préstamo</mat-label>
+            <input
+                matInput
+                [matDatepicker]="pickerLoan"
+                [ngModel]="loanDate()"
+                (ngModelChange)="loanDate.set($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerLoan"></mat-datepicker-toggle>
+            <mat-datepicker #pickerLoan></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha de devolución</mat-label>
+            <input
+                matInput
+                [matDatepicker]="pickerReturn"
+                [ngModel]="returnDate()"
+                (ngModelChange)="returnDate.set($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerReturn"></mat-datepicker-toggle>
+            <mat-datepicker #pickerReturn></mat-datepicker>
+        </mat-form-field>
+    </form>
+
+    @if (errorMessage()) {
+        <mat-error>
+            {{ errorMessage() }}
+        </mat-error>
+    }
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
+

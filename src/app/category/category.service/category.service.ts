@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Category } from '../model/category';
-import { CATEGORY_DATA } from '../model/mock-categories';
 import { HttpClient } from '@angular/common/http';
 
 

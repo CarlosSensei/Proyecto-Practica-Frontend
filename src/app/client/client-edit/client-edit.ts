@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { error } from 'console';
 
 @Component({
     selector: 'app-client-edit',
@@ -19,8 +20,9 @@ export class ClientEditComponent implements OnInit {
     protected readonly data = inject(MAT_DIALOG_DATA);
     protected readonly clientService = inject(ClientService);
 
-    protected readonly id = signal<number | null>(null);
-    protected readonly name = signal<string | null>(null);
+    protected readonly id = signal<number>(0);
+    protected readonly name = signal<string>('');
+    protected errorMessage = signal<string>('');
 
     ngOnInit(): void {
         this.loadFormData();
@@ -34,16 +36,23 @@ export class ClientEditComponent implements OnInit {
     }
 
     onSave() {
-        const id = this.id();
-        const name = this.name();
+        const client: Client = {
+            id: this.id() ?? 0,
+            name: this.name() ?? ''
+        };
 
-        if(!name) {
+        if(!client.name) {
+            this.errorMessage.set("Client name is required.");
             return;
         }
 
-        const client = { id, name } as Client;
-        this.clientService.saveClient(client).subscribe(() => {
-            this.dialogRef.close(true);
+        this.clientService.saveClient(client).subscribe({
+            next: () => {
+                this.dialogRef.close(true);
+            },
+            error: (error) => {
+                this.errorMessage.set(error.error);
+            }
         });
     }
 
