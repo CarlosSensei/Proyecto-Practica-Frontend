@@ -15,7 +15,9 @@ import { MatInputModule } from '@angular/material/input';
     templateUrl: './author-edit.html',
     styleUrl: './author-edit.scss',
 })
+
 export class AuthorEditComponent implements OnInit {
+    
     protected readonly authorService = inject(AuthorService);
     protected readonly dialogRef = inject(MatDialogRef<AuthorEditComponent>);
     protected readonly data = inject(MAT_DIALOG_DATA);

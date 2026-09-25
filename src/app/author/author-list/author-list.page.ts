@@ -20,6 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     styleUrl: './author-list.page.scss',
 })
 export class AuthorListPage implements OnInit {
+
     pageNumber: number = 0;
     pageSize: number = 5;
     totalElements: number = 0;
@@ -29,20 +30,13 @@ export class AuthorListPage implements OnInit {
 
     constructor(private authorService: AuthorService, public dialog: MatDialog) {}
 
-    ngOnInit(): void {
-        this.loadPage();
-    }
+    ngOnInit(): void { this.loadPage(); }
 
     loadPage(event?: PageEvent) {
         const pageable: Pageable = {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
-            sort: [
-                {
-                    property: 'id',
-                    direction: 'ASC',
-                },
-            ],
+            sort: [{ property: 'id', direction: 'ASC'}]
         };
 
         if (event != null) {
@@ -59,39 +53,25 @@ export class AuthorListPage implements OnInit {
     }
 
     createAuthor() {
-        const dialogRef = this.dialog.open(AuthorEditComponent, {
-            data: {},
-        });
+        const dialogRef = this.dialog.open(AuthorEditComponent, { data: {} });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            this.ngOnInit();
-        });
+        dialogRef.afterClosed().subscribe((result) => { this.ngOnInit(); });
     }
 
     editAuthor(author: Author) {
-        const dialogRef = this.dialog.open(AuthorEditComponent, {
-            data: { author: author },
-        });
+        const dialogRef = this.dialog.open(AuthorEditComponent, { data: { author: author } });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            this.ngOnInit();
-        });
+        dialogRef.afterClosed().subscribe((result) => { this.ngOnInit(); });
     }
 
     deleteAuthor(author: Author) {
         const dialogRef = this.dialog.open(DialogConfirmation, {
-            data: {
-                title: 'Eliminar autor',
-                description:
-                    'Atención si borra el autor se perderán sus datos.<br> ¿Desea eliminar el autor?',
-            },
-        });
+            data: { title: 'Eliminar autor',
+                description: 'Atención si borra el autor se perderán sus datos.<br> ¿Desea eliminar el autor?'}});
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.authorService.deleteAuthor(author.id).subscribe((result) => {
-                    this.ngOnInit();
-                });
+                this.authorService.deleteAuthor(author.id).subscribe((result) => { this.ngOnInit(); });
             }
         });
     }

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Pageable } from '../../core/page/Pageable';
 import { Author } from '../model/author';
 import { PaginatedData } from '../../core/page/PaginatedData';
@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root',
 })
 export class AuthorService {
+    
     protected readonly http = inject(HttpClient);
 
     private baseUrl = 'http://localhost:8080/author';
