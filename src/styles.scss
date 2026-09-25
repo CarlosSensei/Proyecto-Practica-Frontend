@@ -35,5 +35,10 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+
+.delete-button mat-icon {
+  color: #d32f2f;
+}
+
 }
 /* You can add global styles to this file, and also import other style files */

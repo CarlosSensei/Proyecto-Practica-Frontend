@@ -8,7 +8,10 @@
     <form>
         <mat-form-field>
             <mat-label>Identificador</mat-label>
-            <input type="text" matInput placeholder="Identificador" [(ngModel)]="id" name="id" disabled>
+            <input 
+                matInput
+                [value]="id()"
+                disabled>
         </mat-form-field>
 
         <mat-form-field>
@@ -43,6 +46,7 @@
                 matInput
                 [matDatepicker]="pickerLoan"
                 [ngModel]="loanDate()"
+                [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="loanDate.set($event)">
             <mat-datepicker-toggle matIconSuffix [for]="pickerLoan"></mat-datepicker-toggle>
             <mat-datepicker #pickerLoan></mat-datepicker>
@@ -54,6 +58,7 @@
                 matInput
                 [matDatepicker]="pickerReturn"
                 [ngModel]="returnDate()"
+                [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="returnDate.set($event)">
             <mat-datepicker-toggle matIconSuffix [for]="pickerReturn"></mat-datepicker-toggle>
             <mat-datepicker #pickerReturn></mat-datepicker>

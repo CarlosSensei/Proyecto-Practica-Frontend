@@ -13,8 +13,6 @@ export class CategoryService {
 
   private baseUrl = 'http://localhost:8080/category';
 
-  constructor() { }
-
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.baseUrl);
   }

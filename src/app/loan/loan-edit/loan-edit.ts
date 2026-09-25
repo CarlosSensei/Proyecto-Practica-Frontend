@@ -42,9 +42,9 @@ export class LoanEdit implements OnInit {
   protected readonly clientService = inject(ClientService);
   protected readonly gameService = inject(GameService);
 
-  protected readonly id = signal<number>(this.data.loanId);
-  protected readonly selectedGameId = signal<number>(0);
-  protected readonly selectedClientId = signal<number>(0);
+  protected readonly id = signal<number>(0);
+  protected readonly selectedGameId = signal<number | null>(null);
+  protected readonly selectedClientId = signal<number | null>(null);
   protected readonly gameName = signal<string>('');
   protected readonly clientName = signal<string>('');
   protected readonly loanDate = signal<Date | null>(null);
@@ -59,8 +59,8 @@ export class LoanEdit implements OnInit {
     this.id.set(initialData?.id ?? 0);
     this.gameName.set(initialData?.game.title ?? '');
     this.clientName.set((initialData?.client as any)?.name ?? '');
-    this.selectedGameId.set(initialData?.game?.id ?? 0);
-    this.selectedClientId.set(initialData?.client?.id ?? 0);
+    this.selectedGameId.set(initialData?.game?.id ?? null);
+    this.selectedClientId.set(initialData?.client?.id ?? null);
     this.loanDate.set(initialData?.loanDate ? new Date(initialData.loanDate) : null);
     this.returnDate.set(initialData?.returnDate ? new Date(initialData.returnDate) : null);
   }
@@ -82,22 +82,30 @@ export class LoanEdit implements OnInit {
 
     this.errorMessage.set('');
 
-    const loan: Loan = {
-      id: this.id(),
-      game: { id: this.selectedGameId(), title: this.gameName(), age: 0, category: { id: 0, name: '' }, author: { id: 0, name: '', nationality: '' } },
-      client: { id: this.selectedClientId(), name: this.clientName() },
-      loanDate: this.loanDate()?.toISOString().split('T')[0] ?? '',
-      returnDate: this.returnDate()?.toISOString().split('T')[0] ?? ''
-    };
+    const gameId = this.selectedGameId();
+    const clientId = this.selectedClientId();
 
-    if (!this.selectedGameId() ||
-      !this.selectedClientId() ||
-      !this.loanDate() ||
-      !this.returnDate()) {
+    console.log('gameId', this.selectedGameId());
+console.log('clientId', this.selectedClientId());
+console.log('loanDate', this.loanDate());
+console.log('returnDate', this.returnDate());
+
+    if (gameId == null ||
+        clientId == null ||
+        !this.loanDate() ||
+        !this.returnDate()) {
         
         this.errorMessage.set('All fields are required.');
         return;
     }
+
+    const loan: Loan = {
+      id: this.id(),
+      game: { id: gameId, title: this.gameName(), age: 0, category: { id: 0, name: '' }, author: { id: 0, name: '', nationality: '' } },
+      client: { id: clientId, name: this.clientName() },
+      loanDate: this.loanDate()?.toISOString().split('T')[0] ?? '',
+      returnDate: this.returnDate()?.toISOString().split('T')[0] ?? ''
+    };
 
     this.loanService.saveLoan(loan).subscribe({
       next: (savedLoan) => {;
