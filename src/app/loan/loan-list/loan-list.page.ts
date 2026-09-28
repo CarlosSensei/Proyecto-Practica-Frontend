@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -60,7 +61,8 @@ export class LoanListPage implements OnInit {
 
   filterDate = signal<Date | null>(null);
 
-  constructor(private loanService: LoanService, private clientService: ClientService, private gameService: GameService, private dialog: MatDialog) {}
+  constructor(private loanService: LoanService, private clientService: ClientService, 
+    private gameService: GameService, private dialog: MatDialog, public authService: AuthService) {}
 
   ngOnInit(): void {
     this.LoadPage();

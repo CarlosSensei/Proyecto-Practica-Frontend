@@ -9,6 +9,7 @@ import { CategoryService } from '../category.service/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryEditComponent } from '../category-edit/category-edit';
 import { DialogConfirmation } from '../../core/dialog-confirmation/dialog-confirmation';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
     selector: 'app-category-list',
@@ -29,6 +30,8 @@ export class CategoryListPage implements OnInit {
 
   protected readonly categoryService = inject(CategoryService);
   protected readonly dialog = inject(MatDialog);
+
+  constructor(public authService: AuthService) {}
 
   loadData(): void {
     this.categoryService.getCategories().subscribe(

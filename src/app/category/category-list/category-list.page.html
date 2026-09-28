@@ -11,17 +11,18 @@
             <mat-header-cell *matHeaderCellDef> Nombre categoría  </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
         </ng-container>
-
+       
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <button mat-icon-button color="primary" (click)="editCategory(element)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" class="delete-button" (click)="deleteCategory(element)">
-                    <mat-icon>clear</mat-icon>
-                </button>
-                
+                @if(authService.isLogged()) {
+                    <button mat-icon-button color="primary" (click)="editCategory(element)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" class="delete-button" (click)="deleteCategory(element)">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                }
             </mat-cell>
         </ng-container>
 
@@ -29,7 +30,9 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div class="buttons">
-        <button mat-flat-button color="primary" (click)="createCategory()">Nueva categoría</button>
-    </div>   
+    @if(authService.isLogged()) {
+        <div class="buttons">
+            <button mat-flat-button color="primary" (click)="createCategory()">Nueva categoría</button>
+        </div>
+    }
 </div>

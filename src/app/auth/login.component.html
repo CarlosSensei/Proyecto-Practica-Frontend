@@ -17,4 +17,12 @@
             [(ngModel)]="password">
         </mat-form-field>
     </form>
+
+    <div class="buttons">
+        <button mat-stroked-button class="header_login cancel-button" color="primary" (click)="onClose()">Cancelar</button>
+        <button mat-flat-button class="header_login login-button" color="primary" (click)="login()">Sign In</button>
+
+        @if(errorMessage) {<p class="error"> {{ errorMessage }} </p>}
+
+    </div>
 </div>

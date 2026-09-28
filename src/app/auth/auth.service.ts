@@ -6,9 +6,11 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AuthService {
 
+  constructor(private http: HttpClient) {}
+
   login(user: string, password: string) {
 
-    return this.http.post<string>('/api/auth/login', {user, password});
+    return this.http.post('http://localhost:8080/auth/login', { user, password }, {responseType: 'text'});
   }
 
   saveToken(token: string): void {
@@ -26,5 +28,4 @@ export class AuthService {
     return !!sessionStorage.getItem('token');
   }
 
-  constructor(private http: HttpClient) {}
 }

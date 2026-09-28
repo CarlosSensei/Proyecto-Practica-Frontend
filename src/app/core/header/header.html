@@ -26,7 +26,23 @@
             </div>
 
             <div class="header_login">
-                <mat-icon>account_circle</mat-icon> Sign in
+                @if(authService.isLogged()) {
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        (click)="logout()">
+                        <mat-icon>Logout</mat-icon>
+                    </button>
+                }
+                @else {
+                    <button class="header_login"
+                        mat-flat-button
+                        color="primary"
+                        (click)="login()">
+                        <mat-icon>account_circle</mat-icon> 
+                        Sign in
+                    </button>
+                }    
             </div>
         </div>
     </mat-toolbar-row>

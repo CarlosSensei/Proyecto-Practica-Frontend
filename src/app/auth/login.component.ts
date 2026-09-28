@@ -34,14 +34,24 @@ export class LoginComponent {
 
         next: (token) => {
 
+          console.log('TOKEN RECIBIDO:', token);
+
           this.authService.saveToken(token);
+
           this.dialogRef.close();
         },
 
         error: () => {
 
-          this.errorMessage = 'Usuario y/o password incorrectos';
+          this.errorMessage = 'Login as Basic User';
+
+          this.dialogRef.close();
         }
       });
   }
+
+  onClose() {
+    this.dialogRef.close(false);
+  }
+
 }

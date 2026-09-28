@@ -9,6 +9,7 @@ import { ClientService } from '../client-service/client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientEditComponent } from '../client-edit/client-edit';
 import { DialogConfirmation } from '../../core/dialog-confirmation/dialog-confirmation';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
     selector: 'app-client-list',
@@ -29,7 +30,8 @@ export class ClientListPage implements OnInit {
 
     constructor(
         private clientService: ClientService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        public authService: AuthService
     ) {}
 
     ngOnInit(): void {

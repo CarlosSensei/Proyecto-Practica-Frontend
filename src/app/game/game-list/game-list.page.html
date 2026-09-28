@@ -34,9 +34,11 @@
         }
     </div>
 
-    <div class="buttons">
-        <button mat-flat-button color="primary" (click)="createGame()">
-            Nuevo juego
-        </button>
-    </div>
+    @if(authService.isLogged()) {
+        <div class="buttons">
+            <button mat-flat-button color="primary" (click)="createGame()">
+                Nuevo juego
+            </button>
+        </div>
+    }    
 </div>
