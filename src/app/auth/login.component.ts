@@ -34,11 +34,11 @@ export class LoginComponent {
 
         next: (token) => {
 
-          console.log('TOKEN RECIBIDO:', token);
-
           this.authService.saveToken(token);
 
           this.dialogRef.close();
+
+          window.location.reload();
         },
 
         error: () => {
@@ -51,6 +51,7 @@ export class LoginComponent {
   }
 
   onClose() {
+    
     this.dialogRef.close(false);
   }
 

@@ -64,12 +64,12 @@
 
         <ng-container matColumnDef="loanDate">
             <mat-header-cell *matHeaderCellDef> Fecha préstamo </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.loanDate }} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{ element.loanDate | date:'dd/MM/yyyy' }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="returnDate">
             <mat-header-cell *matHeaderCellDef> Fecha devolución </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.returnDate }} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{ element.returnDate | date:'dd/MM/yyyy' }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">

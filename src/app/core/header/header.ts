@@ -32,6 +32,7 @@ export class Header {
     logout(): void {
 
         this.authService.logout();
+        window.location.reload();
     }
 
 }

@@ -27,11 +27,12 @@
 
             <div class="header_login">
                 @if(authService.isLogged()) {
-                    <button
+                    <button class="header_login"
                         mat-flat-button
                         color="primary"
                         (click)="logout()">
-                        <mat-icon>Logout</mat-icon>
+                        <mat-icon>account_circle</mat-icon> 
+                        Sign out
                     </button>
                 }
                 @else {
