@@ -31,9 +31,11 @@ export class AuthorListPage implements OnInit {
 
     constructor(private authorService: AuthorService, public dialog: MatDialog, public authService: AuthService) {}
 
-    ngOnInit(): void { this.loadPage(); }
+    ngOnInit(): void { 
+        this.loadPage(); }
 
     loadPage(event?: PageEvent) {
+        
         const pageable: Pageable = {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
@@ -44,13 +46,18 @@ export class AuthorListPage implements OnInit {
             pageable.pageSize = event.pageSize;
             pageable.pageNumber = event.pageIndex;
         }
-
+            
+        //this.authorService.getAllAuthors().subscribe((data) => { this.dataSource.data = data; });
+        
         this.authorService.getAuthors(pageable).subscribe((data) => {
+
             this.dataSource.data = data.content;
+
             this.pageNumber = data.pageable.pageNumber;
             this.pageSize = data.pageable.pageSize;
             this.totalElements = data.totalElements;
         });
+    
     }
 
     createAuthor() {
@@ -75,5 +82,8 @@ export class AuthorListPage implements OnInit {
                 this.authorService.deleteAuthor(author.id).subscribe((result) => { this.ngOnInit(); });
             }
         });
+    }
+    
+    ngOnDestroy(): void {
     }
 }

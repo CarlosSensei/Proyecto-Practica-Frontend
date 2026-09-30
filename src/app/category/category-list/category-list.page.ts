@@ -79,6 +79,9 @@ export class CategoryListPage implements OnInit {
     });
   }  
 
+  ngOnDestroy(): void {
+  }
+
 }
 
 

@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), 
-    provideClientHydration(),
+    // provideClientHydration(),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
