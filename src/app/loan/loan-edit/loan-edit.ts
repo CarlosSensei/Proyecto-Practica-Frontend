@@ -15,6 +15,7 @@ import { Client } from '../../client/model/client';
 import { Game } from '../../game/model/Game';
 import { GameService } from '../../game/game-service/game-service';
 import { ClientService } from '../../client/client-service/client.service';
+import { Pageable } from '../../core/page/Pageable';
 
 @Component({
   imports: [
@@ -68,8 +69,17 @@ export class LoanEdit implements OnInit {
   ngOnInit(): void {
     this.loadFormData(this.data.loan ?? null);
 
-    this.clientService.getClients().subscribe(data => {
-      this.clients = data;
+    const pageable: Pageable = {
+      pageNumber: 0,
+      pageSize: 100,
+      sort: [{
+        property: 'id',
+        direction: 'ASC'
+      }]
+    };
+
+    this.clientService.getClients(pageable).subscribe(data => {
+      this.clients = data.content;
     });
 
     this.gameService.getGames().subscribe(data => {

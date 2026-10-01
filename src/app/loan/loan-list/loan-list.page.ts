@@ -66,8 +66,17 @@ export class LoanListPage implements OnInit {
 
   ngOnInit(): void {
     this.LoadPage();
-    this.clientService.getClients().subscribe(data => {
-      this.clients.set(data);
+    const pageable: Pageable = {
+      pageNumber: 0,
+      pageSize: 100,
+      sort: [{
+        property: 'id',
+        direction: 'ASC'
+      }]
+    };
+
+    this.clientService.getClients(pageable).subscribe(data => {
+      this.clients.set(data.content);
     });
 
     this.gameService.getGames().subscribe(data => {

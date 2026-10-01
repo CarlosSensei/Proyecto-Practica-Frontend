@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClientEditComponent } from '../client-edit/client-edit';
 import { DialogConfirmation } from '../../core/dialog-confirmation/dialog-confirmation';
 import { AuthService } from '../../auth/auth.service';
+import { Pageable } from '../../core/page/Pageable';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-client-list',
@@ -18,7 +20,8 @@ import { AuthService } from '../../auth/auth.service';
         MatButtonModule,
         MatIconModule,
         MatTableModule,
-        CommonModule
+        CommonModule,
+        MatPaginatorModule
     ],
     templateUrl: './client-list.page.html',
     styleUrl: './client-list.page.scss'
@@ -28,6 +31,10 @@ export class ClientListPage implements OnInit {
     dataSource = new MatTableDataSource<Client>();
     displayedColumns: string[] = ['id', 'name', 'action'];
 
+    pageNumber = 0;
+    pageSize = 5;
+    totalElements = 0;
+
     constructor(
         private clientService: ClientService,
         private dialog: MatDialog,
@@ -35,15 +42,52 @@ export class ClientListPage implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.loadData();
+        this.loadPage();
     }
 
+    loadPage(event?: PageEvent) {
+        
+        const pageable: Pageable = {
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+            sort: [{ property: 'id', direction: 'ASC'}]
+        };
+
+        if (event != null) {
+            pageable.pageSize = event.pageSize;
+            pageable.pageNumber = event.pageIndex;
+        }
+            
+        //this.authorService.getAllAuthors().subscribe((data) => { this.dataSource.data = data; });
+        
+        this.clientService.getClients(pageable).subscribe((data) => {
+
+            this.dataSource.data = data.content;
+
+            this.pageNumber = data.pageable.pageNumber;
+            this.pageSize = data.pageable.pageSize;
+            this.totalElements = data.totalElements;
+        });
+    
+    }
+
+
+    /** 
     private loadData(): void {
-    this.clientService.getClients().subscribe(clients => {
-        console.log('Clientes recibidos:', clients.map(c => c.id));
-        this.dataSource.data = clients;
-    });
-}
+        const pageable: Pageable = {
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+            sort: [{
+                property: 'id',
+                direction: 'ASC'
+            }]
+        }
+        
+        this.clientService.getClients(pageable).subscribe((data) => {
+            this.dataSource.data = data.content;
+            this.totalElements = data.totalElements;
+        });
+    }*/
 
     createClient(): void {
         const dialogRef = this.dialog.open(ClientEditComponent, {
@@ -52,7 +96,7 @@ export class ClientListPage implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.loadData();
+                this.loadPage();
             }
         });
     }
@@ -64,7 +108,7 @@ export class ClientListPage implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.loadData();
+                this.loadPage();
             }
         });
     }
@@ -77,7 +121,7 @@ export class ClientListPage implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.clientService.deleteClient(client.id).subscribe(() => {
-                    this.loadData();
+                    this.loadPage();
                 });
             }
         });

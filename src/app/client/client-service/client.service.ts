@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Client } from '../model/client';
+import { PaginatedData } from '../../core/page/PaginatedData';
+import { Pageable } from '../../core/page/Pageable';
 
 interface ClientResponse {
   id: number;
@@ -20,6 +22,11 @@ export class ClientService {
 
   private baseUrl = 'http://localhost:8080/client';
 
+  getClients(pageable: Pageable): Observable<PaginatedData<Client>> {
+    return this.http.post<PaginatedData<Client>>(this.baseUrl, { pageable: pageable });
+  }
+
+  /** 
   getClients(): Observable<Client[]> {
     return this.http.get<ClientResponse[]>(this.baseUrl).pipe(
       map(clients => clients.map(client => ({
@@ -28,13 +35,14 @@ export class ClientService {
       })))
     );
   }
+  */
 
   saveClient(client: Client): Observable<Client> {
-  const { id } = client;
-  const url = id ? `${this.baseUrl}/${id}` : this.baseUrl;
+    const { id } = client;
+    const url = id ? `${this.baseUrl}/${id}` : this.baseUrl;
 
-  return this.http.put<Client>(url, client);
-}
+    return this.http.put<Client>(url, client);
+  }
 
   deleteClient(idClient : number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${idClient}`);
